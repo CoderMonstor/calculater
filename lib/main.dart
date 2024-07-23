@@ -1,9 +1,11 @@
 import 'package:calculater/drawerDemo/drawer.dart';
-import 'package:calculater/drop_down_menu/drop_down_demo.dart';
 import 'package:calculater/drop_down_menu/drop_down_page.dart';
-import 'package:flutter/material.dart';
 import 'package:calculater/widget/calc_show.dart';
 import 'package:calculater/widget/calculate.dart';
+import 'package:calculater/setting/setting_page.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'transform/transform_page.dart';
 
@@ -16,8 +18,8 @@ void main() {
   );
 }
 
-
 class MyApp extends StatefulWidget {
+
   const MyApp({super.key});
 
   @override
@@ -25,22 +27,21 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isDarkMode = false; // 用于跟踪当前主题的变量
-
-  void toggleTheme() {
-    setState(() {
-      isDarkMode = !isDarkMode;
-    });
-  }
-
+  bool isDarkMode = false; // 用于跟踪主题模式
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Calculator Demo',
-      theme: isDarkMode ? ThemeData.dark() : ThemeData.light(), // 应用选择的主题
+      theme:  isDarkMode
+          ? ThemeData.dark() // 黑暗模式
+          : ThemeData.light(),
       home: MyHomePage(
         isDarkMode: isDarkMode,
-        toggleTheme: toggleTheme,
+        onThemeChanged: (value) {
+          setState(() {
+            isDarkMode = value;
+          });
+        }
       ),
     );
   }
@@ -48,21 +49,23 @@ class _MyAppState extends State<MyApp> {
 
 class MyHomePage extends StatefulWidget {
   final bool isDarkMode;
-  final VoidCallback toggleTheme;
+  final ValueChanged<bool> onThemeChanged;
 
-  const MyHomePage({super.key, required this.isDarkMode, required this.toggleTheme});
+  const MyHomePage({super.key, required this.isDarkMode, required this.onThemeChanged,});
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   Calculator calculator = Calculator(); // 声明 Calculator 对象
 
   @override
   void initState() {
     super.initState();
     calculator = Calculator(); // 初始化 Calculator 对象
+    timeDilation = 4.0;
   }
 
   @override
@@ -83,8 +86,19 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             actions: <Widget>[
               IconButton(
-                icon: Icon(widget.isDarkMode ? Icons.nightlight_round : Icons.wb_sunny),
-                onPressed: widget.toggleTheme,
+                // icon: Icon(widget.isDarkMode ? Icons.nightlight_round : Icons.wb_sunny),
+                icon: const Icon(Icons.settings),
+                onPressed: (){
+                  Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context)=>SettingPage(
+                          isDarkMode: widget.isDarkMode,
+                          onThemeChanged: widget.onThemeChanged,
+                        ),
+                      )
+                  );
+                },
+                // onPressed: widget.toggleTheme,
               ),
             ],
           ),

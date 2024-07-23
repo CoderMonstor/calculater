@@ -1,5 +1,5 @@
-import 'package:calculater/result/history.dart';
-import '../result/del_history.dart';
+import 'package:calculater/history/history.dart';
+import '../history/del_history.dart';
 import 'package:flutter/material.dart';
 
 class DrawerDemo extends StatefulWidget{
@@ -42,10 +42,9 @@ class _DrawerDemoState extends State<DrawerDemo> {
                     children: [
                       DeleteHistory(),
                       SizedBox(
+                        width: 400,
                         height: 500,
-                        child: SingleChildScrollView(
-                          child: History(),
-                        ),
+                        child: History(),
                       ),
                     ],
                   ),

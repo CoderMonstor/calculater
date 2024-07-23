@@ -16,8 +16,9 @@ class _EqualButtonState extends State<EqualButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () async {
-        await widget._audioPlayer.play(AssetSource('audios/equal.MP3'));
+      onPressed: () {
+        widget._audioPlayer.play(AssetSource('audios/equal.MP3'));
+
         widget.calculator.equalPressed(context);
       },
       style: ElevatedButton.styleFrom(

@@ -5,23 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class History extends StatefulWidget {
+
+
+  // final String inputNum;
+  // final String result;
+
   const History({super.key});
+
 
   @override
   State<History> createState() => _HistoryState();
 
-  static Future<void> saveData(String result, String inputNum) async {
-    try {
-      final directory = await getApplicationDocumentsDirectory();
-      final file = File('${directory.path}/history.txt');
-      await file.writeAsString('$inputNum=$result\n', mode: FileMode.append);
-    } catch (e) {
-      // 错误处理
-      if (kDebugMode) {
-        print('保存数据时出错: $e');
-      }
-    }
-  }
 }
 
 class _HistoryState extends State<History> {
@@ -61,20 +55,24 @@ class _HistoryState extends State<History> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      reverse: true,
       children: _history.map((result) {
         return ListTile(
-          leading: const Icon(Icons.history),
-          title: const Text("result"),
-          subtitle: Text(result),
-          trailing: IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              setState(() {
-                _history.remove(result);
-              });
-            },
+          // leading: const Icon(Icons.history),
+          title: Align(
+              alignment: Alignment.centerRight,
+              child: Text(result)
           ),
+          // subtitle: Text(result),
+          // trailing: IconButton(
+          //   icon: const Icon(Icons.delete),
+          //   onPressed: () {
+          //     setState(() {
+          //       _history.remove(result);
+          //     });
+          //   },
+          // ),
         );
       }).toList(),
     );

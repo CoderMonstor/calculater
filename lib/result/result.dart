@@ -1,7 +1,6 @@
 import 'dart:io';
-
-import 'del_history.dart';
-import 'package:calculater/result/history.dart';
+import 'package:calculater/history/history.dart';
+import '../history/del_history.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 

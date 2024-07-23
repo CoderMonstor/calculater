@@ -1,5 +1,7 @@
 import 'package:calculater/transform/config.dart';
 import 'package:calculater/transform/keyboard.dart';
+import 'package:calculater/widget/calculate.dart';
+import 'package:calculater/widget/build_num_btn.dart';
 
 import 'drop_down_demo.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,7 @@ class _DropDownPageState extends State<DropDownPage> {
   final _titleText2 = TextEditingController();
   String? _selectedValue;
   String? _selectedValue2;
+  Calculator calculator=Calculator();
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +30,12 @@ class _DropDownPageState extends State<DropDownPage> {
           children: [
             SizedBox(
               width: 200,
-              child: Text(
-                      "0"
+              child: TextField(
+                keyboardType: TextInputType.number,
+                controller: _titleText2,
+                decoration: const InputDecoration(
+                  hintText: '请输入',
+                ),
               ),
             ),
             DropdownMenuDemo(
@@ -104,10 +111,11 @@ class _DropDownPageState extends State<DropDownPage> {
             ),
           ],
         ),
-        SizedBox(
-          height: 300,
-          child: buildCustomKeyboard(),
-        )
+        buildKeyboard(calculator: calculator)
+        // const SizedBox(
+        //   height: 300,
+        //   child: buildCustomKeyboard(),
+        // )
       ],
     );
   }

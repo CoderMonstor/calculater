@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:calculater/result/result.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Calculator extends ChangeNotifier {
   String inputNum = '';
@@ -39,11 +42,33 @@ class Calculator extends ChangeNotifier {
     result = calculateResult(inputNum);
 
     // 延迟0毫秒后，执行跳转到结果页面的操作。这是为了确保UI线程可以先处理其他更新。
-    Future.delayed(Duration.zero, () {
-      jumpToResultPage(context, result);
-    });
+
+    // Future.delayed(Duration.zero, () {
+    //   jumpToResultPage(context, result);
+    // });
+
+    /// 将给定的结果数据保存到文件中。
+    ///
+    /// 异步地将字符串结果追加写入到名为'histroy.txt'的文件中。如果文件不存在，
+    /// 它将被创建。此方法用于记录操作历史或保存临时数据，以便后续访问或查看。
+
+    Future<void> saveData(String result,String inputNum) async {
+      try {
+        final directory = await getApplicationDocumentsDirectory();
+        final file = File('${directory.path}/history.txt');
+        // print('文件路径：$file');
+        await file.writeAsString('$inputNum=$result\n', mode: FileMode.append);
+      } catch (e) {
+        // 错误处理
+        print('Error saving data: $e');
+      }
+
+    }
+    saveData(result, inputNum);
 
     print(result);
+
+    notifyListeners();
   }
 
   String calculateResult(String expression) {
