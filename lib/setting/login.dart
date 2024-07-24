@@ -52,6 +52,9 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: '请输入密码',
                           ),
                         ),
+                        const SizedBox(
+                          height: 25,
+                        ),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pushReplacement(
