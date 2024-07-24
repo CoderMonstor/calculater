@@ -29,13 +29,10 @@ class _InputShowState extends State<InputShow> {
             //     width: 400,
             //     height: 150,
             //     child: History())
-              Hero(
-                      tag: 'SizedBoxHero',
-                      child:SizedBox(
-                          width: 400,
-                          height: 150,
-                          child: History())
-            ),
+              SizedBox(
+                  width: 400,
+                  height: 150,
+                  child: History()),
           ),
           Container(
             alignment: Alignment.bottomRight,

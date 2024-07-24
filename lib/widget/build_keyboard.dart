@@ -1,5 +1,5 @@
 import 'equal_btn.dart';
-import '../animationDemo/btn_shake_animation.dart';
+import '../animationDemo/shake_audio.dart';
 import 'calculate.dart';
 import 'clear_btn.dart';
 import 'delete_btn.dart';

@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:calculater/Login/login.dart';
-import 'package:calculater/about/details.dart';
+import 'details.dart';
+import 'login.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,12 +23,17 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // endDrawer: const DrawerDemo(),
       appBar: AppBar(
         title: const Text('设置'),
-        actions: const [
+        actions: [
           SizedBox(
               width: 100,
-              child: Icon(Icons.person)),
+              child: IconButton(
+                onPressed: () {
+
+                },
+                icon: const Icon(Icons.person),)),
         ],
       ),
       body: SizedBox(
@@ -40,29 +45,33 @@ class _SettingPageState extends State<SettingPage> {
             // buildPrimary(),
             buildDelHistory(),
             // buildAgreement(),
-            buildExit(context),
             buildAbout(context),
-            ListTile(
-              title: const Text('详细介绍'),
-              trailing: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (ctx) {
-                        return const DetailsPage();
-                      },
-                    )
-                  );
-                },
-                child: Hero(
-                    tag: 'imagesHero',
-                    child: Image.asset("assets/images/logo.png")),
-              ),
-            )
+            buildDetails(context),
+            buildExit(context),
           ],
         ),
       ),
     );
+  }
+
+  ListTile buildDetails(BuildContext context) {
+    return ListTile(
+            title: const Text('详细介绍'),
+            trailing: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) {
+                      return const DetailsPage();
+                    },
+                  )
+                );
+              },
+              child: Hero(
+                  tag: 'imagesHero',
+                  child: Image.asset("assets/images/logo.png")),
+            ),
+          );
   }
 
   ListTile buildDelHistory() {
@@ -210,6 +219,13 @@ class _SettingPageState extends State<SettingPage> {
                 '中文',
                 'English',
                 '日本語',
+                '한국어',
+                'Español',
+                'Français',
+                'Deutsch',
+                'Português',
+                'Italiano',
+                'Русский',
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,

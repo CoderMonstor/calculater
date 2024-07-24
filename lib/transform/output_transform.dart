@@ -1,4 +1,3 @@
-import 'config.dart';
 import 'package:flutter/material.dart';
 
 class OutputTransform extends StatelessWidget {
@@ -15,6 +14,7 @@ class OutputTransform extends StatelessWidget {
           title: Text('人民币 CNY'),
         ),
         Container(
+          padding:const EdgeInsets.only(right: 50) ,
           alignment: Alignment.bottomRight,
           child: Text(
             result,

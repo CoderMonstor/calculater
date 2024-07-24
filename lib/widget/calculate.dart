@@ -60,13 +60,17 @@ class Calculator extends ChangeNotifier {
         await file.writeAsString('$inputNum=$result\n', mode: FileMode.append);
       } catch (e) {
         // 错误处理
-        print('Error saving data: $e');
+        if (kDebugMode) {
+          print('Error saving data: $e');
+        }
       }
 
     }
     saveData(result, inputNum);
 
-    print(result);
+    if (kDebugMode) {
+      print(result);
+    }
 
     notifyListeners();
   }

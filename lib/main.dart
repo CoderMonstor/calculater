@@ -1,5 +1,4 @@
 import 'package:calculater/drawerDemo/drawer.dart';
-import 'package:calculater/drop_down_menu/drop_down_page.dart';
 import 'package:calculater/widget/calc_show.dart';
 import 'package:calculater/widget/calculate.dart';
 import 'package:calculater/setting/setting_page.dart';
@@ -65,7 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     calculator = Calculator(); // 初始化 Calculator 对象
-    timeDilation = 4.0;
+    ///动画速度
+    timeDilation = 2.0;
   }
 
   @override
@@ -110,8 +110,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     return const NumButtons();
                   case Icons.currency_exchange:
                     return const TransformPage();
-                  case Icons.bookmark_border:
-                    return const DropDownPage();
+                  // case Icons.bookmark_border:
+                  //   return const DropDownPage();
                   default:
                     return const NumButtons();
                 }
@@ -134,5 +134,5 @@ class Choice{
 const List<Choice> choices = [
   Choice(icon: Icons.calculate),
   Choice(icon: Icons.currency_exchange),
-  Choice(icon: Icons.bookmark_border)
+  // Choice(icon: Icons.bookmark_border)
 ];

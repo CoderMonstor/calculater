@@ -1,13 +1,17 @@
 import 'package:calculater/transform/config.dart';
+import 'package:calculater/widget/calculate.dart';
 
-import 'jump_to_listPage.dart';
 import 'package:flutter/material.dart';
 
 class InputTransform extends StatefulWidget {
-  final TextEditingController controller;
+
+  final Calculator calculator;
   final Function(String) onCurrencySelected;
 
-  const InputTransform({super.key, required this.controller, required this.onCurrencySelected});
+  const InputTransform({
+    super.key,
+    required this.calculator,
+    required this.onCurrencySelected});
 
   @override
   State<InputTransform> createState() => _InputTransformState();
@@ -18,7 +22,7 @@ class _InputTransformState extends State<InputTransform> {
 
   @override
   Widget build(BuildContext context) {
-    JumpToTransformListPage jumpToTransformListPage = JumpToTransformListPage();
+    // JumpToTransformListPage jumpToTransformListPage = JumpToTransformListPage();
     return Column(
       children: [
 
@@ -68,16 +72,22 @@ class _InputTransformState extends State<InputTransform> {
               });
               widget.onCurrencySelected(selectedCurrency);
             }
+            else{
+              setState(() {
+                _selectedCurrency = '美元 USD';
+              });
+              widget.onCurrencySelected(_selectedCurrency);
+            }
           },
         ),
         Container(
+          padding:const EdgeInsets.only(right: 50) ,
           alignment: Alignment.bottomRight,
           child: Text(
-            widget.controller.text,
-            style: const TextStyle(fontSize: 30),
-          ),
-        ),
+            widget.calculator.inputNum,
+            style: const TextStyle(fontSize: 30),),
 
+        )
       ],
     );
   }
