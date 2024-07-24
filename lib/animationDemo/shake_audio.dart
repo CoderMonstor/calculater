@@ -75,6 +75,15 @@ class _BuildButtonState extends State<BuildButton> {
              case '.':
                await _audioPlayer.play(AssetSource('audios/point.MP3'));
                break;
+             case '=':
+               await _audioPlayer.play(AssetSource('audios/equal.MP3'));
+               break;
+             case 'C':
+               await _audioPlayer.play(AssetSource('audios/clear.MP3'));
+               break;
+             case 'D':
+               // await _audioPlayer.play(AssetSource('audios/delete.MP3'));
+              break;
             default:
               await _audioPlayer.play(AssetSource('audios/${widget.str}.MP3'));
               break;

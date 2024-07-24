@@ -12,7 +12,6 @@ class DrawerDemo extends StatefulWidget{
 class _DrawerDemoState extends State<DrawerDemo> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Drawer(
         elevation: 16.0,
         child: Stack(
@@ -37,17 +36,15 @@ class _DrawerDemoState extends State<DrawerDemo> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      DeleteHistory(),
-                      SizedBox(
-                        width: 400,
-                        height: 500,
-                        child: History(),
-                      ),
-                    ],
-                  ),
+                Column(
+                  children: [
+                    DeleteHistory(),
+                    SizedBox(
+                      width: 400,
+                      height: 500,
+                      child: History(),
+                    ),
+                  ],
                 ),
               ],
             ),

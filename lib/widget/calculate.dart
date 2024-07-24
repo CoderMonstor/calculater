@@ -1,25 +1,77 @@
 import 'dart:io';
 
-import 'package:calculater/result/result.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Calculator extends ChangeNotifier {
   String inputNum = '';
   String result = '';
 
-
   void onButtonPressed(String value) {
     // 如果第一个输入的是操作符，则不进行任何操作
-    if (inputNum.isEmpty && isOperator(value)) {
+    if (inputNum.isEmpty && isOperator(value)&& inputNum[0] == ')') {
       return;
     }
-
     // 如果当前输入的是操作符，并且前一个字符也是操作符，则替换掉前一个操作符
     if (isOperator(value) && inputNum.isNotEmpty && isOperator(inputNum[inputNum.length - 1]) && inputNum[inputNum.length - 1] != '(') {
       inputNum = inputNum.substring(0, inputNum.length - 1) + value;
-    } else {
+    } else if (value == '=') {
+      // 处理等号按钮的逻辑
+      try {
+        // 计算表达式的结果
+        final result = calculateResult(inputNum);
+        inputNum+='=$result';
+
+        // 将结果保存到历史记录
+
+        /// 将给定的结果数据保存到文件中。
+        ///
+        /// 异步地将字符串结果追加写入到名为'histroy.txt'的文件中。如果文件不存在，
+        /// 它将被创建。此方法用于记录操作历史或保存临时数据，以便后续访问或查看。
+        Future<void> saveData(String result,String inputNum) async {
+          try {
+            final directory = await getApplicationDocumentsDirectory();
+            final file = File('${directory.path}/history.txt');
+            // print('文件路径：$file');
+            await file.writeAsString('$inputNum\n', mode: FileMode.append);
+          } catch (e) {
+            // 错误处理
+            if (kDebugMode) {
+              print('Error saving data: $e');
+            }
+          }
+        }
+        saveData(result, inputNum);
+        // 打印结果（调试用）
+        if (kDebugMode) {
+          print('Result: $result');
+        }
+      } catch (e) {
+        // 处理计算错误
+        inputNum = 'Error';
+        if (kDebugMode) {
+          print('Error result: $e');
+        }
+      }
+    } else if(value == 'C'){
+      try{
+        inputNum = '';
+      }catch(e){
+        if (kDebugMode) {
+          print('Error clear data: $e');
+        }
+      }
+    }else if(value == 'D'){
+      try{
+        inputNum = inputNum.substring(0, inputNum.length - 1);
+      }catch(e){
+        if (kDebugMode) {
+          print('Error deleting data: $e');
+        }
+      }
+    }
+    else {
+      // 处理其他按钮的逻辑
       inputNum += value;
     }
 
@@ -27,52 +79,7 @@ class Calculator extends ChangeNotifier {
     if (kDebugMode) {
       print(inputNum);
     }
-    notifyListeners();
-  }
-
-  void onDeletePressed() {
-    if (inputNum.isNotEmpty) {
-      /// 移除输入数字字符串的最后一个字符
-      inputNum = inputNum.substring(0, inputNum.length - 1);
-    }
-    notifyListeners();
-  }
-
-  void equalPressed(BuildContext context) {
-    // 计算输入数字的结果。
-    result = calculateResult(inputNum);
-
-    // 延迟0毫秒后，执行跳转到结果页面的操作。这是为了确保UI线程可以先处理其他更新。
-
-    // Future.delayed(Duration.zero, () {
-    //   jumpToResultPage(context, result);
-    // });
-
-    /// 将给定的结果数据保存到文件中。
-    ///
-    /// 异步地将字符串结果追加写入到名为'histroy.txt'的文件中。如果文件不存在，
-    /// 它将被创建。此方法用于记录操作历史或保存临时数据，以便后续访问或查看。
-
-    Future<void> saveData(String result,String inputNum) async {
-      try {
-        final directory = await getApplicationDocumentsDirectory();
-        final file = File('${directory.path}/history.txt');
-        // print('文件路径：$file');
-        await file.writeAsString('$inputNum=$result\n', mode: FileMode.append);
-      } catch (e) {
-        // 错误处理
-        if (kDebugMode) {
-          print('Error saving data: $e');
-        }
-      }
-
-    }
-    saveData(result, inputNum);
-
-    if (kDebugMode) {
-      print(result);
-    }
-
+    // 通知监听者更新界面
     notifyListeners();
   }
 
@@ -100,26 +107,26 @@ class Calculator extends ChangeNotifier {
     List<String> operators = [];
 
     // 遍历所有标记
-    for (String token in expressions) {
-      // 如果标记是数字，转换为double类型并压入数值栈
-      if (isNumber(token)) {
-        values.add(double.parse(token));
-        // 如果标记是左括号，压入运算符栈
-      } else if (token == '(') {
-        operators.add(token);
+    for (String value in expressions) {
+      // 如果标记是数字，转换为double类型,存储在数值列表
+      if (isNumber(value)) {
+        values.add(double.parse(value));
+        // 如果标记是左括号，压入运算符列表
+      } else if (value == '(') {
+        operators.add(value);
         // 如果标记是右括号，执行运算直到遇到左括号
-      } else if (token == ')') {
+      } else if (value == ')') {
         while (operators.isNotEmpty && operators.last != '(') {
           values.add(applyOperator(values.removeLast(), values.removeLast(), operators.removeLast()));
         }
         operators.removeLast(); // 移除左括号
         // 如果标记是运算符，根据优先级执行运算
-      } else if (isOperator(token)) {
+      } else if (isOperator(value)) {
         while (operators.isNotEmpty &&
-            precedence(operators.last) >= precedence(token)) {
+            precedence(operators.last) >= precedence(value)) {
           values.add(applyOperator(values.removeLast(), values.removeLast(), operators.removeLast()));
         }
-        operators.add(token);
+        operators.add(value);
       }
     }
 
@@ -148,8 +155,8 @@ class Calculator extends ChangeNotifier {
     // 遍历表达式中的每个字符
     for (int i = 0; i < expression.length; i++) {
       String char = expression[i];
-      // 如果当前字符是括号或运算符，则将当前数字缓冲区的内容添加到令牌列表中，
-      // 并将当前字符作为一个单独的令牌添加到列表中
+      // 如果当前字符是括号或运算符，则将当前数字缓冲区的内容添加到列表中，
+      // 并将当前字符作为一个单独的元素添加到列表中
       if (char == '(' || char == ')' || isOperator(char)) {
         if (numberBuffer.isNotEmpty) {
           nums.add(numberBuffer);
@@ -157,7 +164,7 @@ class Calculator extends ChangeNotifier {
         }
         nums.add(char);
       } else {
-        // 如果当前字符是数字，则将其添加到数字缓冲区
+        // 如果当前字符是数字，则将其添加到数字区
         numberBuffer += char;
       }
     }
@@ -200,21 +207,5 @@ class Calculator extends ChangeNotifier {
       return a / b;
     }
     throw Exception('Unknown operator');
-  }
-
-  void clearButton() {
-    inputNum = '';
-    result = '';
-    notifyListeners();
-  }
-
-  void jumpToResultPage(BuildContext context, String result) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) {
-          return ResultPage(result, inputNum);
-        },
-      ),
-    );
   }
 }

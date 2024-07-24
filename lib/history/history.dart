@@ -5,21 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class History extends StatefulWidget {
-
-
-  // final String inputNum;
-  // final String result;
-
   const History({super.key});
-
 
   @override
   State<History> createState() => _HistoryState();
-
 }
 
 class _HistoryState extends State<History> {
   List<String> _history = [];
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -44,6 +38,10 @@ class _HistoryState extends State<History> {
         setState(() {
           _history = data.split('\n').where((line) => line.isNotEmpty).toList();
         });
+        // 延迟执行，确保列表内容加载后再滚动
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          scrollToBottom();
+        });
       }
     } catch (e) {
       // 错误处理
@@ -53,26 +51,24 @@ class _HistoryState extends State<History> {
     }
   }
 
+  void scrollToBottom() {
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      reverse: true,
+    return  ListView(
+      controller: scrollController,
       children: _history.map((result) {
         return ListTile(
-          // leading: const Icon(Icons.history),
           title: Align(
-              alignment: Alignment.centerRight,
-              child: Text(result)
+            alignment: Alignment.centerRight,
+            child: Text(result),
           ),
-          // subtitle: Text(result),
-          // trailing: IconButton(
-          //   icon: const Icon(Icons.delete),
-          //   onPressed: () {
-          //     setState(() {
-          //       _history.remove(result);
-          //     });
-          //   },
-          // ),
         );
       }).toList(),
     );

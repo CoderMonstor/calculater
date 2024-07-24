@@ -6,14 +6,15 @@ import 'package:flutter/material.dart';
 
 class InputShow extends StatefulWidget {
 
-  Calculator calculator;
-  InputShow({super.key,required this.calculator});
+  final Calculator calculator;
+  const InputShow({super.key,required this.calculator});
 
   @override
   State<InputShow> createState() => _InputShowState();
 }
 
 class _InputShowState extends State<InputShow> {
+  final double _fontSize = 35;
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +26,6 @@ class _InputShowState extends State<InputShow> {
           const SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child:
-            // SizedBox(
-            //     width: 400,
-            //     height: 150,
-            //     child: History())
               SizedBox(
                   width: 400,
                   height: 150,
@@ -38,8 +35,8 @@ class _InputShowState extends State<InputShow> {
             alignment: Alignment.bottomRight,
             // color: Colors.blue[100],
             child: Text(
-              widget.calculator.inputNum,
-              style: const TextStyle(fontSize: 50),
+              widget.calculator.inputNum+widget.calculator.result,
+              style: TextStyle(fontSize: _fontSize),
             ),
           )
         ],
