@@ -18,6 +18,21 @@ class _TransformPageState extends State<TransformPage> {
   String _result = '';
   Calculator calculator = Calculator();
 
+  ValueNotifier<String> _resultNotifier = ValueNotifier<String>('');
+
+  @override
+  void initState() {
+    super.initState();
+    calculator.addListener(_convert);  // 添加监听器，当计算器的输入变化时调用 _convert
+  }
+
+  @override
+  void dispose() {
+    calculator.removeListener(_convert);  // 移除监听器
+    _resultNotifier.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,4 +76,5 @@ class _TransformPageState extends State<TransformPage> {
       _convert(); // 如果需要，更新选择货币后立即转换
     });
   }
+
 }

@@ -11,7 +11,7 @@ class InputTransform extends StatefulWidget {
   const InputTransform({
     super.key,
     required this.calculator,
-    required this.onCurrencySelected});
+    required this.onCurrencySelected,});
 
   @override
   State<InputTransform> createState() => _InputTransformState();
@@ -19,45 +19,28 @@ class InputTransform extends StatefulWidget {
 
 class _InputTransformState extends State<InputTransform> {
   String _selectedCurrency = '美元 USD';
-
   @override
   Widget build(BuildContext context) {
-    // JumpToTransformListPage jumpToTransformListPage = JumpToTransformListPage();
     return Column(
       children: [
-
-        ///跳转到ListPage
-        // ListTile(
-        //   //内边距
-        //   contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-        //   title: Text(_selectedCurrency),
-        //   trailing: const Icon(Icons.chevron_right),
-        //   onTap: () async {
-        //     var currency= await jumpToTransformListPage.jumpToTransformListPage(context);
-        //     setState(() {
-        //       if (currency != null) {
-        //         setState(() {
-        //           _selectedCurrency = currency;
-        //         });
-        //         widget.onCurrencySelected(currency);
-        //       }
-        //     });
-        //   },
-        // ),
-
         /// 使用SimpleDialog弹出对话框
         ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 30),
           title: Text(_selectedCurrency),
           trailing: const Icon(Icons.chevron_right),
           onTap: () async {
+            /// 显示一个对话框，让用户从给定的货币列表中选择一种货币
+            /// 返回用户选择的货币名称
             final selectedCurrency = await showDialog<String>(
               context: context,
               builder: (context) {
+                /// 构建一个SimpleDialog用于展示货币选项
                 return SimpleDialog(
                   children: financeNames.map((currency) {
+                    /// 为每个货币选项构建一个SimpleDialogOption
                     return SimpleDialogOption(
                       onPressed: () {
+                        /// 当选项被选中时，通过Navigator.pop返回选中的货币名称
                         Navigator.pop(context, currency);
                       },
                       child: Text(currency),
@@ -70,24 +53,20 @@ class _InputTransformState extends State<InputTransform> {
               setState(() {
                 _selectedCurrency = selectedCurrency;
               });
-              widget.onCurrencySelected(selectedCurrency);
+              widget.onCurrencySelected(_selectedCurrency);
             }
             else{
-              setState(() {
-                _selectedCurrency = '美元 USD';
-              });
               widget.onCurrencySelected(_selectedCurrency);
             }
           },
         ),
-        Container(
-          padding:const EdgeInsets.only(right: 50) ,
-          alignment: Alignment.bottomRight,
-          child: Text(
-            widget.calculator.inputNum,
-            style: const TextStyle(fontSize: 30),),
-
-        )
+          Container(
+            padding:const EdgeInsets.only(right: 50) ,
+            alignment: Alignment.bottomRight,
+            child: Text(
+              widget.calculator.inputNum,
+              style: const TextStyle(fontSize: 30),),
+          ),
       ],
     );
   }

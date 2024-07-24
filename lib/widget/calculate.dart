@@ -9,6 +9,7 @@ class Calculator extends ChangeNotifier {
   String inputNum = '';
   String result = '';
 
+
   void onButtonPressed(String value) {
     // 如果第一个输入的是操作符，则不进行任何操作
     if (inputNum.isEmpty && isOperator(value)) {

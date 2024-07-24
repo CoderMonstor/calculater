@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'details.dart';
@@ -17,8 +18,32 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-
   String _selectedLanguage = '中文'; // 当前选中的语言
+  late Timer timer;
+  bool isDialogShown = false; // 用于跟踪对话框是否已经显示过
+
+  @override
+  void initState() {
+    super.initState();
+    // 设置定时器间隔为 3 秒，避免过于频繁的触发
+    timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (!isDialogShown) {
+        try {
+          myDialog(); // 显示对话框
+        } catch (e) {
+          if (kDebugMode) {
+            debugPrint('定时器错误: $e');
+          }
+        }
+      }
+    });
+  }
+  @override
+  void dispose() {
+    timer.cancel(); // 取消定时器以避免内存泄漏
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +51,6 @@ class _SettingPageState extends State<SettingPage> {
       // endDrawer: const DrawerDemo(),
       appBar: AppBar(
         title: const Text('设置'),
-        actions: [
-          SizedBox(
-              width: 100,
-              child: IconButton(
-                onPressed: () {
-
-                },
-                icon: const Icon(Icons.person),)),
-        ],
       ),
       body: SizedBox(
         child: ListView(
@@ -250,5 +266,49 @@ class _SettingPageState extends State<SettingPage> {
             ),
           );
   }
+
+  void myDialog() {
+    isDialogShown = true; // 设置对话框显示状态
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          clipBehavior: Clip.antiAlias,
+          elevation: 10,
+          child: Stack(
+            children:[
+              Container(
+                height: 450,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/adnull.png'),
+                    fit: BoxFit.cover,
+                  )
+                ),
+              ),
+              Positioned(
+                bottom: 10,
+                left: 130,
+                child: IconButton(
+                  //背景透明
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    iconSize: 30,
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    },
+                    icon:const Icon(Icons.cancel)),
+              ),
+            ]
+          ),
+        );
+      },
+    );// 确保在对话框关闭时重置状态;
+  }
+
 }
 
