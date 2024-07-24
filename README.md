@@ -17,7 +17,7 @@ drawer
 
 设置
 
-![image-20240724174625727](https://github.com/CoderMonstor/calculater/blob/master/README.assets/image-20240724174613023.png)
+![image-20240724174625727](https://github.com/CoderMonstor/calculater/blob/master/README.assets/image-20240724174625727.png)
 
 弹窗广告
 
