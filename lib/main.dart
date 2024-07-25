@@ -126,7 +126,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class Choice{
   const Choice({required this.icon});
-  // final String title;
   final IconData icon;
 }
 

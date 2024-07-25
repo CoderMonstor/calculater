@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'details.dart';
-import 'login.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -179,13 +178,15 @@ class _SettingPageState extends State<SettingPage> {
               icon: const Icon(Icons.exit_to_app),
               onPressed: () {
                 // 退出登录
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (ctx) {
-                      return const LoginPage();
-                    },
-                  ),
-                );
+                // Navigator.of(context).pushReplacement(
+                //   MaterialPageRoute(
+                //     builder: (ctx) {
+                //       return const LoginPage();
+                //     },
+                //   ),
+                // );
+                //退出整个程序
+                SystemNavigator.pop();
               }
             )
           );

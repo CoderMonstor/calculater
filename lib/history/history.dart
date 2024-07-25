@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-
 class History extends StatefulWidget {
   const History({super.key});
 
@@ -14,11 +14,32 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   List<String> _history = [];
   final ScrollController scrollController = ScrollController();
+  late Timer _timer;
+  late File _historyFile;
+  late DateTime _lastModified;
 
   @override
   void initState() {
     super.initState();
-    _loadHistory();
+    _initializeHistory();
+    _startFileWatcher();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _initializeHistory() async {
+    _historyFile = await _getHistoryFile();
+    if (await _historyFile.exists()) {
+      _lastModified = await _historyFile.lastModified();
+      await _loadHistory();
+    } else {
+      _lastModified = DateTime.now();
+    }
   }
 
   Future<Directory> _getDirectory() async {
@@ -32,9 +53,8 @@ class _HistoryState extends State<History> {
 
   Future<void> _loadHistory() async {
     try {
-      final file = await _getHistoryFile();
-      if (await file.exists()) {
-        final data = await file.readAsString();
+      if (await _historyFile.exists()) {
+        final data = await _historyFile.readAsString();
         setState(() {
           _history = data.split('\n').where((line) => line.isNotEmpty).toList();
         });
@@ -59,9 +79,19 @@ class _HistoryState extends State<History> {
     );
   }
 
+  void _startFileWatcher() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      final newModified = await _historyFile.lastModified();
+      if (newModified.isAfter(_lastModified)) {
+        _lastModified = newModified;
+        await _loadHistory();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  ListView(
+    return ListView(
       controller: scrollController,
       children: _history.map((result) {
         return ListTile(

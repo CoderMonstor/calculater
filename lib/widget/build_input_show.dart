@@ -24,7 +24,6 @@ class _InputShowState extends State<InputShow> {
       child:Column(
         children: [
           const SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
             child:
               SizedBox(
                   width: 400,
