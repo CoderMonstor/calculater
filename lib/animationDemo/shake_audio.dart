@@ -14,7 +14,9 @@ class BuildButton extends StatefulWidget {
 
 class _BuildButtonState extends State<BuildButton> {
   bool _isPressed = false;
+  //shake控制器
   final ShakeAnimationController _shakeAnimationController = ShakeAnimationController();
+  //音频播放器
   final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override

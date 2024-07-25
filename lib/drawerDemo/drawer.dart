@@ -1,5 +1,5 @@
 import 'package:calculater/history/history.dart';
-import '../history/del_history.dart';
+import '../history/del_history_demo.dart';
 import 'package:flutter/material.dart';
 
 class DrawerDemo extends StatefulWidget{
@@ -13,7 +13,6 @@ class _DrawerDemoState extends State<DrawerDemo> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        elevation: 16.0,
         child: Stack(
           children: <Widget>[
             const Column(
@@ -22,15 +21,12 @@ class _DrawerDemoState extends State<DrawerDemo> {
                 UserAccountsDrawerHeader(
                   accountName: Text("lmy"),
                   accountEmail:Text("lmy@163.com"),
+                  //当前用户的头像
                   currentAccountPicture: CircleAvatar(backgroundImage: AssetImage('assets/images/1.jpg'),),
-                  arrowColor: Colors.red,
-                  // onDetailsPressed: () {
-                  //   print(1);
-                  // },
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        'assets/images/bg.jpg'
+                        'assets/images/10.jpg'
                         ),
                         fit: BoxFit.cover
                     ),
@@ -38,7 +34,7 @@ class _DrawerDemoState extends State<DrawerDemo> {
                 ),
                 Column(
                   children: [
-                    DeleteHistory(),
+                    DeleteHistoryDemo(),
                     SizedBox(
                       width: 400,
                       height: 500,
@@ -51,6 +47,7 @@ class _DrawerDemoState extends State<DrawerDemo> {
             Positioned(
                 bottom: 10,
                 right: 10,
+                // 退出按钮，InkWell是可以添加点击事件的容器
                 child: InkWell(
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,

@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'dart:io';
+
+import 'package:calculater/history/del_history.dart';
 
 import 'details.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 
 class SettingPage extends StatefulWidget {
   final bool isDarkMode;
@@ -96,26 +96,7 @@ class _SettingPageState extends State<SettingPage> {
               icon: Icon(Icons.delete),
               onPressed: () async {
                 // 清除历史记录
-                try {
-                  final directory = await getApplicationDocumentsDirectory();
-                  final file = File('${directory.path}/history.txt');
-
-                  bool fileExists = await file.exists();
-                  if (fileExists) {
-                    await file.delete();
-                    if (kDebugMode) {
-                      debugPrint('文件已成功删除.');
-                    }
-                  } else {
-                    if (kDebugMode) {
-                      debugPrint('文件不存在，无需删除.');
-                    }
-                  }
-                } on PlatformException catch (e) {
-                  if (kDebugMode) {
-                    debugPrint('文件操作失败: $e');
-                  }
-                }
+                DelHistory.deleteHistory();
                 showDialog(
                     context: context,
                     builder: (context){
@@ -192,28 +173,7 @@ class _SettingPageState extends State<SettingPage> {
           );
   }
 
-  ListTile buildAgreement() {
-    return ListTile(
-            title: const Text('用户协议'),
-            trailing: GestureDetector(
-              onTap: () {
 
-              },
-              child: Image.asset("assets/images/logo.png"),
-            ),
-          );
-  }
-
-  ListTile buildPrimary() {
-    return ListTile(
-            title: const Text('隐私政策'),
-            trailing: IconButton(
-                onPressed: (){
-
-                },
-                icon: const Icon(Icons.open_in_new)),
-          );
-  }
 
   ListTile buildVersion() {
     return const ListTile(
@@ -310,6 +270,30 @@ class _SettingPageState extends State<SettingPage> {
       },
     );// 确保在对话框关闭时重置状态;
   }
+  ///待实现
+  ///
+///   ListTile buildAgreement() {
+//     return ListTile(
+//             title: const Text('用户协议'),
+//             trailing: GestureDetector(
+//               onTap: () {
+//
+//               },
+//               child: Image.asset("assets/images/logo.png"),
+//             ),
+//           );
+//   }
+
+//  ListTile buildPrimary() {
+//     return ListTile(
+//             title: const Text('隐私政策'),
+//             trailing: IconButton(
+//                 onPressed: (){
+//
+//                 },
+//                 icon: const Icon(Icons.open_in_new)),
+//           );
+//   }
 
 }
 

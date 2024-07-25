@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:calculater/history/history.dart';
-import '../history/del_history.dart';
+import '../history/del_history_demo.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -60,7 +60,7 @@ class _ResultPageState extends State<ResultPage> {
               ],
             ),
           ),
-          const DeleteHistory(),
+          const DeleteHistoryDemo(),
           const SizedBox(
             height: 500,
             child: SingleChildScrollView(

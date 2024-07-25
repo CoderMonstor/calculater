@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+
 class History extends StatefulWidget {
   const History({super.key});
 
@@ -14,7 +15,7 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   List<String> _history = [];
   final ScrollController scrollController = ScrollController();
-  late Timer _timer;
+  Timer? _timer;
   late File _historyFile;
   late DateTime _lastModified;
 
@@ -27,7 +28,7 @@ class _HistoryState extends State<History> {
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     scrollController.dispose();
     super.dispose();
   }
@@ -81,17 +82,40 @@ class _HistoryState extends State<History> {
 
   void _startFileWatcher() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      final newModified = await _historyFile.lastModified();
-      if (newModified.isAfter(_lastModified)) {
-        _lastModified = newModified;
-        await _loadHistory();
+      if (await _historyFile.exists()) {
+        final newModified = await _historyFile.lastModified();
+        if (newModified.isAfter(_lastModified)) {
+          _lastModified = newModified;
+          await _loadHistory();
+        }
+      } else {
+        // 文件不存在，取消定时器并更新UI
+        _timer?.cancel();
+        setState(() {
+          _history = [];
+        });
+        _startFileExistenceChecker();
+      }
+    });
+  }
+
+  void _startFileExistenceChecker() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      if (await _historyFile.exists()) {
+        _timer?.cancel();
+        _initializeHistory();
+        _startFileWatcher();
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return _history.isEmpty
+        ? const Center(
+          child: Text(' ',),
+        )
+        : ListView(
       controller: scrollController,
       children: _history.map((result) {
         return ListTile(
