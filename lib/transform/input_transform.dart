@@ -29,8 +29,7 @@ class _InputTransformState extends State<InputTransform> {
           title: Text(_selectedCurrency),
           trailing: const Icon(Icons.chevron_right),
           onTap: () async {
-            /// 显示一个对话框，让用户从给定的货币列表中选择一种货币
-            /// 返回用户选择的货币名称
+            /// 显示一个对话框，让用户从给定的货币列表中选择一种货币，返回用户选择的货币名称
             final selectedCurrency = await showDialog<String>(
               context: context,
               builder: (context) {

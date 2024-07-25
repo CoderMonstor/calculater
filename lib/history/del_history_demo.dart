@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'del_history.dart';
+import 'del_file.dart';
 
 class DeleteHistoryDemo extends StatefulWidget {
   const DeleteHistoryDemo({super.key});
@@ -18,7 +18,7 @@ class _DeleteHistoryDemoState extends State<DeleteHistoryDemo> {
         trailing: IconButton(
             icon: const Icon(Icons.delete_outline_sharp),
             onPressed: () async {
-                DelHistory.deleteHistory();
+                DelHistoryFile.deleteHistoryFile();
               }
         ),
       ),

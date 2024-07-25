@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
-class DelHistory{
+class DelHistoryFile{
   // 删除历史记录
-  static Future<void> deleteHistory() async {
+  static Future<void> deleteHistoryFile() async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final file = File('${directory.path}/history.txt');

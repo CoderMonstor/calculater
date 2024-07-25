@@ -24,10 +24,10 @@ class Calculator extends ChangeNotifier {
 
         // 将结果保存到历史记录
 
-        /// 将给定的结果数据保存到文件中。
+        /// 将给定的结果数据保存到文件中
         ///
-        /// 异步地将字符串结果追加写入到名为'histroy.txt'的文件中。如果文件不存在，
-        /// 它将被创建。此方法用于记录操作历史或保存临时数据，以便后续访问或查看。
+        /// 异步地将字符串结果追加写入到名为'histroy.txt'的文件中如果文件不存在，
+        /// 它将被创建此方法用于记录操作历史或保存临时数据，以便后续访问或查看
         Future<void> saveData(String result,String inputNum) async {
           try {
             final directory = await getApplicationDocumentsDirectory();
@@ -94,8 +94,8 @@ class Calculator extends ChangeNotifier {
     }
   }
 
-  /// 计算并返回作为字符串提供的数学表达式的结果，结果类型为double。
-  /// 表达式中可以包含数字、运算符以及括号。
+  /// 计算并返回作为字符串提供的数学表达式的结果，结果类型为double
+  /// 表达式中可以包含数字、运算符以及括号
   ///
   /// @param expression 表达式的字符串表示形式
   double evaluateExpression(String expression) {
@@ -139,13 +139,13 @@ class Calculator extends ChangeNotifier {
   }
 
 
-  /// 对表达式进行分词。
+  /// 对表达式进行分词
   ///
-  /// 将输入的数学表达式分割成数字和运算符（包括括号）的列表。
-  /// 数字可以是单个字符或多个字符的连续序列，运算符和括号各自作为单独的令牌。
+  /// 将输入的数学表达式分割成数字和运算符（包括括号）的列表
+  /// 数字可以是单个字符或多个字符的连续序列，运算符和括号各自作为单独的令牌
   ///
-  /// @param expression 待分词的数学表达式字符串。
-  /// @return 一个包含数字和运算符（包括括号）的字符串列表。
+  /// @param expression 待分词的数学表达式字符串
+  /// @return 一个包含数字和运算符（包括括号）的字符串列表
   List<String> slipExpression(String expression) {
     // 用于存储分词后的结果
     List<String> nums = [];

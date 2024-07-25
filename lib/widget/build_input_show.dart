@@ -14,7 +14,7 @@ class InputShow extends StatefulWidget {
 }
 
 class _InputShowState extends State<InputShow> {
-  final double _fontSize = 35;
+  final double _fontSize = 50;
 
   @override
   Widget build(BuildContext context) {

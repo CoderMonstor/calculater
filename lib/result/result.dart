@@ -20,7 +20,6 @@ class ResultPage extends StatefulWidget {
   /// 异步地将字符串结果追加写入到名为'histroy.txt'的文件中。如果文件不存在，
   /// 它将被创建。此方法用于记录操作历史或保存临时数据，以便后续访问或查看。
 
-
   Future<void> saveData(String result,String inputNum) async {
     try {
       final directory = await getApplicationDocumentsDirectory();

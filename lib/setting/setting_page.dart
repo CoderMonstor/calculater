@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:calculater/history/del_history.dart';
+import 'package:calculater/history/del_file.dart';
 
 import 'details.dart';
 import 'package:flutter/foundation.dart';
@@ -93,10 +93,10 @@ class _SettingPageState extends State<SettingPage> {
     return ListTile(
             title: const Text('清除历史记录'),
             trailing: IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: () async {
                 // 清除历史记录
-                DelHistory.deleteHistory();
+                DelHistoryFile.deleteHistoryFile();
                 showDialog(
                     context: context,
                     builder: (context){
