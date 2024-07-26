@@ -66,7 +66,7 @@ class _BuildButtonState extends State<BuildButton> {
             '.': 'audios/point.MP3',
             '=': 'audios/equal.MP3',
             'C': 'audios/clear.MP3',
-            'D': '', // 可以留空，或设置为你想要的音频文件路径
+            'D': '',
           };
 
           // 播放音频的函数
