@@ -1,4 +1,4 @@
-import '../animationDemo/shake_audio.dart';
+import '../animationDemo/shake.dart';
 import 'calculate.dart';
 
 import 'package:flutter/material.dart';
