@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
+//建造者模式？
+
 class History extends StatefulWidget {
   const History({super.key});
 

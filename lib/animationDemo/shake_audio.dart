@@ -11,7 +11,7 @@ class BuildButton extends StatefulWidget {
   @override
   _BuildButtonState createState() => _BuildButtonState();
 }
-
+//状态模式？
 class _BuildButtonState extends State<BuildButton> {
   bool _isPressed = false;
   //shake控制器
@@ -55,41 +55,34 @@ class _BuildButtonState extends State<BuildButton> {
             _isPressed = !_isPressed;
             widget.calculator.onButtonPressed(widget.str);
           });
-          switch (widget.str) {
-            case '+':
-              await _audioPlayer.play(AssetSource('audios/add.MP3'));
-              break;
-            case '-':
-              await _audioPlayer.play(AssetSource('audios/min.MP3'));
-              break;
-            case '×':
-              await _audioPlayer.play(AssetSource('audios/times.MP3'));
-              break;
-            case '÷':
-              await _audioPlayer.play(AssetSource('audios/mul.MP3'));
-              break;
-            case '(':
-              await _audioPlayer.play(AssetSource('audios/Lopen.MP3'));
-              break;
-            case ')':
-              await _audioPlayer.play(AssetSource('audios/Ropen.MP3'));
-              break;
-             case '.':
-               await _audioPlayer.play(AssetSource('audios/point.MP3'));
-               break;
-             case '=':
-               await _audioPlayer.play(AssetSource('audios/equal.MP3'));
-               break;
-             case 'C':
-               await _audioPlayer.play(AssetSource('audios/clear.MP3'));
-               break;
-             case 'D':
-               // await _audioPlayer.play(AssetSource('audios/delete.MP3'));
-              break;
-            default:
-              await _audioPlayer.play(AssetSource('audios/${widget.str}.MP3'));
-              break;
+          // 创建一个映射，将字符串映射到音频文件路径
+          final audioPaths = {
+            '+': 'audios/add.MP3',
+            '-': 'audios/min.MP3',
+            '×': 'audios/times.MP3',
+            '÷': 'audios/mul.MP3',
+            '(': 'audios/Lopen.MP3',
+            ')': 'audios/Ropen.MP3',
+            '.': 'audios/point.MP3',
+            '=': 'audios/equal.MP3',
+            'C': 'audios/clear.MP3',
+            'D': '', // 可以留空，或设置为你想要的音频文件路径
+          };
+
+          // 播放音频的函数
+          Future<void> playAudio(String str) async {
+            // 获取对应的音频路径，如果找不到，则使用默认路径
+            final audioPath = audioPaths[str] ?? 'audios/${str}.MP3';
+
+            // 如果路径非空，则播放音频
+            if (audioPath.isNotEmpty) {
+              await _audioPlayer.play(AssetSource(audioPath));
+            }
           }
+
+          // 调用播放音频的函数
+          await playAudio(widget.str);
+
         },
       ),
     );
